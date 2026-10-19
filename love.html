@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Для тебя ❤️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: auto; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(165deg, #ffe6ef 0%, #ffd9e9 20%, #f6dcff 55%, #dde9ff 100%);
+    background-attachment: fixed;
+    color: #6b3a55;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ---------- ФОНОВЫЙ СЛОЙ: ФОТОГРАФИИ ---------- */
+  .bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .photo {
+    position: absolute;
+    padding: 5px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 26px rgba(200, 100, 160, .28);
+    transform: rotate(var(--r, 0deg));
+    animation: floaty 7s ease-in-out infinite;
+    opacity: .95;
+  }
+  .photo > .ph-inner {
+    width: 100%; height: 100%;
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    line-height: 1;
+  }
+
+  @keyframes floaty {
+    0%, 100% { transform: rotate(var(--r,0deg)) translateY(0); }
+    50%      { transform: rotate(var(--r,0deg)) translateY(-9px); }
+  }
+
+  /* ---------- ФОНОВЫЙ СЛОЙ: Я ТЕБЯ ЛЮБЛЮ ---------- */
+  .love-word {
+    position: absolute;
+    font-family: 'Pacifico', cursive;
+    color: #ff7fb0;
+    opacity: .45;
+    white-space: nowrap;
+    transform: rotate(var(--r, 0deg));
+    text-shadow: 0 2px 10px rgba(255,255,255,.8);
+    animation: floaty 9s ease-in-out infinite;
+  }
+
+  /* ---------- ОСНОВНОЙ КОНТЕНТ ---------- */
+  .app {
+    position: relative;
+    z-index: 2;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 22px 14px 70px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, .74);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-radius: 30px;
+    padding: 30px 20px;
+    box-shadow: 0 20px 55px rgba(255, 105, 180, .22),
+                inset 0 0 0 2px rgba(255, 255, 255, .65);
+    animation: pop .55s cubic-bezier(.2, .9, .3, 1.3);
+  }
+
+  @keyframes pop {
+    from { opacity: 0; transform: scale(.93) translateY(16px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .center { text-align: center; }
+
+  h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(1.7rem, 7vw, 2.3rem);
+    margin: 6px 0 12px;
+    color: #e2528c;
+    line-height: 1.25;
+    text-shadow: 0 3px 12px rgba(255, 143, 192, .35);
+  }
+
+  h2 {
+    font-size: clamp(1.05rem, 4.4vw, 1.3rem);
+    font-weight: 800;
+    margin: 6px 0 14px;
+    line-height: 1.4;
+    color: #7a3f5e;
+  }
+
+  .sub {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.55;
+    color: #93627f;
+    margin: 0 0 18px;
+  }
+
+  .big-heart {
+    font-size: 3rem;
+    display: inline-block;
+    animation: beat 1.4s ease-in-out infinite;
+  }
+  @keyframes beat {
+    0%, 100% { transform: scale(1); }
+    30%      { transform: scale(1.18); }
+    60%      { transform: scale(.96); }
+  }
+
+  /* чипсы с переводами */
+  .langs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    justify-content: center;
+    margin: 4px 0 22px;
+  }
+  .lang-chip {
+    font-family: 'Pacifico', cursive;
+    font-size: .78rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .85);
+    color: #d95b93;
+    box-shadow: 0 4px 14px rgba(255, 143, 192, .28);
+    border: 1.5px solid rgba(255, 190, 215, .8);
+  }
+
+  .btn {
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #fff;
+    border: none;
+    padding: 16px 34px;
+    border-radius: 999px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ff8fc0, #d47fff);
+    box-shadow: 0 12px 28px rgba(220, 110, 190, .45);
+    transition: transform .18s, box-shadow .18s;
+    width: 100%;
+    max-width: 320px;
+  }
+  .btn:active { transform: scale(.96); box-shadow: 0 6px 16px rgba(220, 110, 190, .4); }
+
+  /* ---------- ПРОГРЕСС ---------- */
+  .progress {
+    height: 10px;
+    background: rgba(255, 190, 215, .45);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #ff9ec7, #c98cff);
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+  }
+  .q-counter {
+    text-align: center;
+    font-weight: 800;
+    font-size: .82rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #b96a95;
+    margin-bottom: 16px;
+  }
+
+  /* ---------- ОТВЕТЫ ---------- */
+  .answer {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 15px 17px;
+    margin: 10px 0;
+    border-radius: 18px;
+    border: 2px solid #ffd1e3;
+    background: rgba(255, 255, 255, .95);
+    font-family: inherit;
+    font-size: .98rem;
+    font-weight: 700;
+    color: #6b3a55;
+    cursor: pointer;
+    transition: transform .16s, border-color .16s, box-shadow .16s, background .3s;
+  }
+  .answer:active { transform: scale(.98); }
+  .answer.correct {
+    background: #e3ffe6;
+    border-color: #78d98b;
+    box-shadow: 0 8px 22px rgba(120, 217, 139, .45);
+  }
+  .answer.wrong {
+    background: #ffe5e5;
+    border-color: #ff9d9d;
+    animation: shake .42s ease;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    80% { transform: translateX(-4px); }
+  }
+
+  .feedback {
+    text-align: center;
+    font-weight: 800;
+    min-height: 26px;
+    margin-top: 8px;
+    color: #e2528c;
+    font-size: .95rem;
+  }
+
+  /* ---------- ФИНАЛ ---------- */
+  .love-lines {
+    padding: 20px 0 10px;
+  }
+  .love-line {
+    font-family: 'Pacifico', cursive;
+    text-align: center;
+    line-height: 1.35;
+    margin: 2px 0;
+    animation: fadeUp .5s ease both;
+    text-shadow: 0 2px 10px rgba(255,255,255,.7);
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px) scale(.94); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .miss-text {
+    font-family: 'Pacifico', cursive;
+    text-align: center;
+    font-size: clamp(2rem, 10vw, 3rem);
+    color: #b06bff;
+    margin: 40px 0 10px;
+    text-shadow: 0 6px 24px rgba(176, 107, 255, .45);
+    animation: fadeUp 1s ease both;
+  }
+
+  .deep-text {
+    margin-top: 46px;
+    padding: 0 4px;
+  }
+  .deep-text p {
+    font-size: clamp(1rem, 4.2vw, 1.12rem);
+    line-height: 1.75;
+    font-weight: 600;
+    color: #6b3a55;
+    margin: 0 0 20px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 1.1s ease, transform 1.1s ease;
+  }
+  .deep-text p.show { opacity: 1; transform: none; }
+
+  .deep-text p.signature {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(1.25rem, 5.5vw, 1.6rem);
+    color: #e2528c;
+    text-align: center;
+    margin-top: 30px;
+    line-height: 1.5;
+  }
+
+  .hidden { display: none !important; }
+
+  /* ---------- ЛЕТЯЩИЕ СЕРДЕЧКИ ---------- */
+  .heart-burst {
+    position: fixed;
+    font-size: 1.4rem;
+    pointer-events: none;
+    z-index: 999;
+    animation: burst 1.1s ease-out forwards;
+  }
+  @keyframes burst {
+    0%   { opacity: 1; transform: translate(0, 0) scale(.6); }
+    100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.4); }
+  }
+
+  /* ---------- МОБИЛЬНАЯ АДАПТАЦИЯ ---------- */
+  @media (max-width: 480px) {
+    .app { padding: 16px 10px 60px; }
+    .card { padding: 26px 16px; border-radius: 26px; }
+    .answer { padding: 14px 15px; font-size: .93rem; }
+    .photo { opacity: .85; }
+    .love-word { opacity: .33; }
+  }
+
+  @media (min-width: 900px) {
+    .app { max-width: 680px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ФОН: фотографии -->
+<div class="bg-layer" id="bgPhotos"></div>
+<!-- ФОН: "я тебя люблю" на разных языках -->
+<div class="bg-layer" id="bgLove"></div>
+
+<main class="app">
+
+  <!-- ================= ИНТРО ================= -->
+  <section id="intro" class="card center">
+    <div class="big-heart">💖</div>
+    <h1>Привет, солнышко</h1>
+    <p class="sub">
+      У меня для тебя маленький сюрприз…<br>
+      Ответь на несколько милых вопросов 💕
+    </p>
+    <div class="langs" id="langs"></div>
+    <button class="btn" id="startBtn">Начать 💌</button>
+  </section>
+
+  <!-- ================= КВИЗ ================= -->
+  <section id="quiz" class="card hidden">
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="q-counter" id="qCounter">Вопрос 1 из 8</div>
+    <h2 id="questionText">…</h2>
+    <div id="answers"></div>
+    <div class="feedback" id="feedback"></div>
+  </section>
+
+  <!-- ================= ФИНАЛ ================= -->
+  <section id="finale" class="hidden">
+    <div id="loveLines" class="love-lines"></div>
+    <div id="missText" class="miss-text hidden">я очень скучаю</div>
+    <div id="deepText" class="deep-text"></div>
+  </section>
+
+</main>
+
+<script>
+/* =========================================================
+   1. ДЕКОРАЦИИ ФОНА
+   ========================================================= */
+const EMOJIS = ['🐻','🌸','🎀','💕','🌷','🦋','🍓','☁️','🌈','🧸','💐','🌙','⭐️','🍰','🕊️','💌','🌺','🐰','🍒','🫧'];
+const GRADS = [
+  'linear-gradient(135deg,#ffd6e8,#ffb3d1)',
+  'linear-gradient(135deg,#e8d6ff,#c9b3ff)',
+  'linear-gradient(135deg,#d6f0ff,#a8d8ff)',
+  'linear-gradient(135deg,#fff0d6,#ffd9a8)',
+  'linear-gradient(135deg,#e6ffe0,#b8f0b0)',
+  'linear-gradient(135deg,#ffe0e0,#ffb8b8)',
+  'linear-gradient(135deg,#ffe6f5,#ffc2e6)',
+  'linear-gradient(135deg,#e0f7ff,#b0e6ff)'
+];
+
+/* Позиции фотографий: top, left, размер, поворот */
+const PHOTO_SLOTS = [
+  { t: '2%',  l: '2%',  s: 88,  r: -9 },
+  { t: '6%',  l: '76%', s: 104, r: 7  },
+  { t: '18%', l: '1%',  s: 68,  r: 6  },
+  { t: '22%', l: '86%', s: 76,  r: -8 },
+  { t: '36%', l: '3%',  s: 96,  r: 10 },
+  { t: '40%', l: '88%', s: 88,  r: -5 },
+  { t: '54%', l: '1%',  s: 72,  r: -7 },
+  { t: '58%', l: '85%', s: 92,  r: 8  },
+  { t: '70%', l: '4%',  s: 104, r: 5  },
+  { t: '74%', l: '82%', s: 70,  r: -9 },
+  { t: '86%', l: '2%',  s: 80,  r: 7  },
+  { t: '90%', l: '84%', s: 94,  r: -6 },
+  { t: '31%', l: '45%', s: 60,  r: 14 },
+  { t: '64%', l: '48%', s: 56,  r: -12 }
+];
+
+function buildPhotos() {
+  const layer = document.getElementById('bgPhotos');
+  const frag = document.createDocumentFragment();
+
+  PHOTO_SLOTS.forEach((slot, i) => {
+    const el = document.createElement('div');
+    el.className = 'photo';
+    el.style.width = slot.s + 'px';
+    el.style.height = slot.s + 'px';
+    el.style.top = slot.t;
+    el.style.left = slot.l;
+    el.style.setProperty('--r', slot.r + 'deg');
+    el.style.animationDelay = (i * 0.35) + 's';
+
+    const inner = document.createElement('div');
+    inner.className = 'ph-inner';
+    inner.style.background = GRADS[i % GRADS.length];
+    inner.style.fontSize = Math.round(slot.s * 0.42) + 'px';
+    inner.textContent = EMOJIS[i % EMOJIS.length];
+
+    el.appendChild(inner);
+    frag.appendChild(el);
+  });
+
+  layer.appendChild(frag);
+}
+
+/* Переводы "я тебя люблю" */
+const LOVE_LANGS = [
+  'Я тебя люблю', 'I love you', 'Je t\'aime', 'Te amo', 'Ti amo',
+  'Ich liebe dich', '愛してる', '사랑해', '我爱你', 'Seni seviyorum',
+  'Kocham cię', 'Eu te amo', 'Ik hou van je', 'Jag älskar dig',
+  'Te iubesc', 'Σ\'αγαπώ', 'أحبك', 'אני אוהב אותך', 'Rakastan sinua',
+  'Miluji tě', 'Szeretlek', 'Volim te', 'Якаю цябе', 'Amo te'
+];
+
+const LOVE_SLOTS = [
+  { t: '10%', l: '6%',  s: 1.05, r: -12 },
+  { t: '14%', l: '58%', s: 1.25, r: 9   },
+  { t: '27%', l: '9%',  s: 0.95, r: 7   },
+  { t: '30%', l: '62%', s: 1.15, r: -8  },
+  { t: '44%', l: '3%',  s: 1.2,  r: 11  },
+  { t: '48%', l: '57%', s: 1.0,  r: -13 },
+  { t: '61%', l: '8%',  s: 1.1,  r: -6  },
+  { t: '65%', l: '60%', s: 1.25, r: 8   },
+  { t: '78%', l: '4%',  s: 1.0,  r: 10  },
+  { t: '82%', l: '61%', s: 1.15, r: -9  },
+  { t: '93%', l: '10%', s: 1.05, r: -7  },
+  { t: '96%', l: '56%', s: 1.2,  r: 12  },
+  { t: '52%', l: '33%', s: 0.85, r: 16  },
+  { t: '37%', l: '36%', s: 0.8,  r: -16 }
+];
+
+function buildLoveWords() {
+  const layer = document.getElementById('bgLove');
+  const frag = document.createDocumentFragment();
+
+  LOVE_SLOTS.forEach((slot, i) => {
+    const el = document.createElement('div');
+    el.className = 'love-word';
+    el.textContent = LOVE_LANGS[i % LOVE_LANGS.length];
+    el.style.top = slot.t;
+    el.style.left = slot.l;
+    el.style.fontSize = slot.s + 'rem';
+    el.style.setProperty('--r', slot.r + 'deg');
+    el.style.animationDelay = (i * 0.5) + 's';
+    frag.appendChild(el);
+  });
+
+  layer.appendChild(frag);
+}
+
+/* Чипсы языков в интро */
+function buildLangChips() {
+  const box = document.getElementById('langs');
+  const shuffled = [...LOVE_LANGS].sort(() => Math.random() - 0.5).slice(0, 10);
+  shuffled.forEach(txt => {
+    const chip = document.createElement('span');
+    chip.className = 'lang-chip';
+    chip.textContent = txt;
+    box.appendChild(chip);
+  });
+}
+
+buildPhotos();
+buildLoveWords();
+buildLangChips();
+
+/* =========================================================
+   2. ВОПРОСЫ
+   ========================================================= */
+const QUESTIONS = [
+  {
+    q: 'О чём я думаю перед сном? 🌙',
+    a: ['О завтрашнем дне', 'О тебе 💭', 'О еде 🍕', 'О работе'],
+    c: 1
+  },
+  {
+    q: 'Какое место на Земле самое красивое? 🌍',
+    a: ['Париж', 'Море', 'Рядом с тобой 💖', 'Горы'],
+    c: 2
+  },
+  {
+    q: 'Сколько раз в день я думаю о тебе? ⏰',
+    a: ['Пару раз', 'Ни разу', 'По праздникам', 'Бесконечно ♾️'],
+    c: 3
+  },
+  {
+    q: 'Что я хочу видеть каждое утро? ☀️',
+    a: ['Твою улыбку 😊', 'Будильник', 'Новости', 'Дождь за окном'],
+    c: 0
+  },
+  {
+    q: 'Что для меня самое ценное? 💎',
+    a: ['Телефон', 'Деньги', 'Ты 💝', 'Машина'],
+    c: 2
+  },
+  {
+    q: 'Чем пахнет счастье? 🌸',
+    a: ['Кофе', 'Твоими духами', 'Дождём', 'Мятой'],
+    c: 1
+  },
+  {
+    q: 'Что я пою про себя, когда тебя нет рядом? 🎶',
+    a: ['Гимн', 'Колыбельную', 'Песню о любви к тебе💕', 'Рэп'],
+    c: 2
+  },
+  {
+    q: 'Что я хочу сказать тебе прямо сейчас? ❤️',
+    a: ['Привет', 'Как дела?', 'Пока', 'Я тебя очень люблю💕'],
+    c: 3
+  }
+];
+
+const WRONG_PHRASES = [
+  'Не-а, подумай ещё 🥺',
+  'Мимо! Попробуй снова 💕',
+  'Почти! Но нет 🌸',
+  'Ты же знаешь правильный ответ 😘',
+  'Хи-хи, не угадала 🎀'
+];
+
+const CORRECT_PHRASES = [
+  'Да! Ты самая умная 💖',
+  'Правильно, солнышко ✨',
+  'Именно так! 💕',
+  'Умница моя 🌸',
+  'Точно-точно! 😍'
+];
+
+let current = 0;
+let locked = false;
+
+const introEl    = document.getElementById('intro');
+const quizEl     = document.getElementById('quiz');
+const finaleEl   = document.getElementById('finale');
+const questionEl = document.getElementById('questionText');
+const answersEl  = document.getElementById('answers');
+const feedbackEl = document.getElementById('feedback');
+const counterEl  = document.getElementById('qCounter');
+const progressEl = document.getElementById('progressBar');
+
+document.getElementById('startBtn').addEventListener('click', () => {
+  introEl.classList.add('hidden');
+  quizEl.classList.remove('hidden');
+  quizEl.style.animation = 'pop .5s cubic-bezier(.2,.9,.3,1.3)';
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+function renderQuestion() {
+  locked = false;
+  const item = QUESTIONS[current];
+
+  questionEl.textContent = item.q;
+  counterEl.textContent = `Вопрос ${current + 1} из ${QUESTIONS.length}`;
+  progressEl.style.width = ((current) / QUESTIONS.length * 100) + '%';
+  feedbackEl.textContent = '';
+  answersEl.innerHTML = '';
+
+  item.a.forEach((text, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer';
+    btn.textContent = text;
+    btn.addEventListener('click', () => handleAnswer(btn, idx, item.c));
+    answersEl.appendChild(btn);
+  });
+}
+
+function handleAnswer(btn, chosen, correct) {
+  if (locked) return;
+
+  if (chosen === correct) {
+    locked = true;
+    btn.classList.add('correct');
+    feedbackEl.textContent = CORRECT_PHRASES[Math.floor(Math.random() * CORRECT_PHRASES.length)];
+    burstHearts(btn);
+    progressEl.style.width = ((current + 1) / QUESTIONS.length * 100) + '%';
+
+    setTimeout(() => {
+      current++;
+      if (current < QUESTIONS.length) {
+        renderQuestion();
+      } else {
+        startFinale();
+      }
+    }, 850);
+  } else {
+    btn.classList.add('wrong');
+    feedbackEl.textContent = WRONG_PHRASES[Math.floor(Math.random() * WRONG_PHRASES.length)];
+    setTimeout(() => btn.classList.remove('wrong'), 500);
+  }
+}
+
+/* Взрыв сердечек */
+function burstHearts(originEl) {
+  const rect = originEl.getBoundingClientRect();
+  const hearts = ['💖','💕','💗','🌸','✨','💞'];
+  for (let i = 0; i < 9; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-burst';
+    h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    h.style.left = (rect.left + rect.width / 2) + 'px';
+    h.style.top = (rect.top + rect.height / 2) + 'px';
+    h.style.setProperty('--dx', (Math.random() * 200 - 100) + 'px');
+    h.style.setProperty('--dy', (-Math.random() * 160 - 40) + 'px');
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 1200);
+  }
+}
+
+/* =========================================================
+   3. ФИНАЛ
+   ========================================================= */
+const LOVE_COLORS = ['#ff6fa5','#ff8fc0','#c47cff','#ff9a76','#ff5f8f','#b06bff','#ff7eb3','#e2528c'];
+
+const DEEP_TEXT = [
+  'Ты — моё самое любимое чудо на свете.',
+  'Я люблю тебя за твой смех, от которого у меня внутри всё переворачивается. За то, как ты хмуришь брови, когда о чём-то думаешь. За твои тёплые руки и за то, как ты одним сообщением умеешь сделать мой день в тысячу раз лучше.',
+  'Я люблю тебя не за что-то конкретное — а просто потому, что ты есть. За то, что ты — это ты. За то, что рядом с тобой я становлюсь добрее, счастливее и хочу быть лучше каждый день.',
+  'Каждое утро я просыпаюсь с мыслью о тебе, и каждый вечер засыпаю с ней же. Между нами могут быть километры, но ты всегда в моём сердце — тёплая, родная, моя.',
+  'Даже если весь мир перевернётся, я всё равно найду тебя. Потому что ты — моя нежность, мой дом, моя вселенная.',
+  'Я люблю тебя больше, чем можно написать словами. Больше, чем можно уместить в миллион таких вот сайтов.',
+  'Я тебя очень-очень люблю. 💕'
+];
+
+function startFinale() {
+  quizEl.classList.add('hidden');
+  finaleEl.classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const loveBox  = document.getElementById('loveLines');
+  const missEl   = document.getElementById('missText');
+  const deepEl   = document.getElementById('deepText');
+
+  loveBox.innerHTML = '';
+  missEl.classList.add('hidden');
+  deepEl.innerHTML = '';
+  missEl.style.animation = 'none';
+
+  let i = 0;
+  const TOTAL = 100;
+
+  const timer = setInterval(() => {
+    const line = document.createElement('div');
+    line.className = 'love-line';
+    line.textContent = 'я тебя люблю💕';
+
+    const size = 1.05 + Math.random() * 0.55;
+    line.style.fontSize = size.toFixed(2) + 'rem';
+    line.style.color = LOVE_COLORS[i % LOVE_COLORS.length];
+    line.style.transform = 'rotate(' + (Math.random() * 6 - 3).toFixed(1) + 'deg)';
+    line.style.animationDelay = '0s';
+
+    loveBox.appendChild(line);
+    i++;
+
+    /* плавный автоскролл */
+    window.scrollTo(0, document.body.scrollHeight);
+
+    if (i >= TOTAL) {
+      clearInterval(timer);
+      setTimeout(showMiss, 900);
+    }
+  }, 85);
+}
+
+function showMiss() {
+  const missEl = document.getElementById('missText');
+  missEl.classList.remove('hidden');
+  missEl.style.animation = 'fadeUp 1.2s ease both';
+
+  setTimeout(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }, 100);
+
+  setTimeout(showDeepText, 2600);
+}
+
+function showDeepText() {
+  const deepEl = document.getElementById('deepText');
+
+  DEEP_TEXT.forEach((text, idx) => {
+    const p = document.createElement('p');
+    p.textContent = text;
+    if (idx === DEEP_TEXT.length - 1) p.classList.add('signature');
+    deepEl.appendChild(p);
+
+    setTimeout(() => {
+      p.classList.add('show');
+      p.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 550 + idx * 1900);
+  });
+}
+</script>
+</body>
+</html>

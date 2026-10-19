@@ -10,7 +10,6 @@
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; padding: 0; }
-  html { scroll-behavior: auto; }
 
   body {
     font-family: 'Nunito', sans-serif;
@@ -22,7 +21,6 @@
     position: relative;
   }
 
-  /* ---------- ФОНОВЫЙ СЛОЙ: ФОТОГРАФИИ ---------- */
   .bg-layer {
     position: fixed;
     inset: 0;
@@ -54,7 +52,6 @@
     50%      { transform: rotate(var(--r,0deg)) translateY(-9px); }
   }
 
-  /* ---------- ФОНОВЫЙ СЛОЙ: Я ТЕБЯ ЛЮБЛЮ ---------- */
   .love-word {
     position: absolute;
     font-family: 'Pacifico', cursive;
@@ -66,7 +63,6 @@
     animation: floaty 9s ease-in-out infinite;
   }
 
-  /* ---------- ОСНОВНОЙ КОНТЕНТ ---------- */
   .app {
     position: relative;
     z-index: 2;
@@ -133,7 +129,6 @@
     60%      { transform: scale(.96); }
   }
 
-  /* чипсы с переводами */
   .langs {
     display: flex;
     flex-wrap: wrap;
@@ -169,7 +164,6 @@
   }
   .btn:active { transform: scale(.96); box-shadow: 0 6px 16px rgba(220, 110, 190, .4); }
 
-  /* ---------- ПРОГРЕСС ---------- */
   .progress {
     height: 10px;
     background: rgba(255, 190, 215, .45);
@@ -194,7 +188,6 @@
     margin-bottom: 16px;
   }
 
-  /* ---------- ОТВЕТЫ ---------- */
   .answer {
     display: block;
     width: 100%;
@@ -238,10 +231,7 @@
     font-size: .95rem;
   }
 
-  /* ---------- ФИНАЛ ---------- */
-  .love-lines {
-    padding: 20px 0 10px;
-  }
+  .love-lines { padding: 20px 0 10px; }
   .love-line {
     font-family: 'Pacifico', cursive;
     text-align: center;
@@ -265,10 +255,7 @@
     animation: fadeUp 1s ease both;
   }
 
-  .deep-text {
-    margin-top: 46px;
-    padding: 0 4px;
-  }
+  .deep-text { margin-top: 46px; padding: 0 4px; }
   .deep-text p {
     font-size: clamp(1rem, 4.2vw, 1.12rem);
     line-height: 1.75;
@@ -292,7 +279,6 @@
 
   .hidden { display: none !important; }
 
-  /* ---------- ЛЕТЯЩИЕ СЕРДЕЧКИ ---------- */
   .heart-burst {
     position: fixed;
     font-size: 1.4rem;
@@ -305,7 +291,6 @@
     100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.4); }
   }
 
-  /* ---------- МОБИЛЬНАЯ АДАПТАЦИЯ ---------- */
   @media (max-width: 480px) {
     .app { padding: 16px 10px 60px; }
     .card { padding: 26px 16px; border-radius: 26px; }
@@ -314,21 +299,16 @@
     .love-word { opacity: .33; }
   }
 
-  @media (min-width: 900px) {
-    .app { max-width: 680px; }
-  }
+  @media (min-width: 900px) { .app { max-width: 680px; } }
 </style>
 </head>
 <body>
 
-<!-- ФОН: фотографии -->
 <div class="bg-layer" id="bgPhotos"></div>
-<!-- ФОН: "я тебя люблю" на разных языках -->
 <div class="bg-layer" id="bgLove"></div>
 
 <main class="app">
 
-  <!-- ================= ИНТРО ================= -->
   <section id="intro" class="card center">
     <div class="big-heart">💖</div>
     <h1>Привет, солнышко</h1>
@@ -340,7 +320,6 @@
     <button class="btn" id="startBtn">Начать 💌</button>
   </section>
 
-  <!-- ================= КВИЗ ================= -->
   <section id="quiz" class="card hidden">
     <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
     <div class="q-counter" id="qCounter">Вопрос 1 из 8</div>
@@ -349,7 +328,6 @@
     <div class="feedback" id="feedback"></div>
   </section>
 
-  <!-- ================= ФИНАЛ ================= -->
   <section id="finale" class="hidden">
     <div id="loveLines" class="love-lines"></div>
     <div id="missText" class="miss-text hidden">я очень скучаю</div>
@@ -359,9 +337,6 @@
 </main>
 
 <script>
-/* =========================================================
-   1. ДЕКОРАЦИИ ФОНА
-   ========================================================= */
 const EMOJIS = ['🐻','🌸','🎀','💕','🌷','🦋','🍓','☁️','🌈','🧸','💐','🌙','⭐️','🍰','🕊️','💌','🌺','🐰','🍒','🫧'];
 const GRADS = [
   'linear-gradient(135deg,#ffd6e8,#ffb3d1)',
@@ -374,7 +349,6 @@ const GRADS = [
   'linear-gradient(135deg,#e0f7ff,#b0e6ff)'
 ];
 
-/* Позиции фотографий: top, left, размер, поворот */
 const PHOTO_SLOTS = [
   { t: '2%',  l: '2%',  s: 88,  r: -9 },
   { t: '6%',  l: '76%', s: 104, r: 7  },
@@ -395,7 +369,6 @@ const PHOTO_SLOTS = [
 function buildPhotos() {
   const layer = document.getElementById('bgPhotos');
   const frag = document.createDocumentFragment();
-
   PHOTO_SLOTS.forEach((slot, i) => {
     const el = document.createElement('div');
     el.className = 'photo';
@@ -405,26 +378,22 @@ function buildPhotos() {
     el.style.left = slot.l;
     el.style.setProperty('--r', slot.r + 'deg');
     el.style.animationDelay = (i * 0.35) + 's';
-
     const inner = document.createElement('div');
     inner.className = 'ph-inner';
     inner.style.background = GRADS[i % GRADS.length];
     inner.style.fontSize = Math.round(slot.s * 0.42) + 'px';
     inner.textContent = EMOJIS[i % EMOJIS.length];
-
     el.appendChild(inner);
     frag.appendChild(el);
   });
-
   layer.appendChild(frag);
 }
 
-/* Переводы "я тебя люблю" */
 const LOVE_LANGS = [
-  'Я тебя люблю', 'I love you', 'Je t\'aime', 'Te amo', 'Ti amo',
+  'Я тебя люблю', 'I love you', "Je t'aime", 'Te amo', 'Ti amo',
   'Ich liebe dich', '愛してる', '사랑해', '我爱你', 'Seni seviyorum',
   'Kocham cię', 'Eu te amo', 'Ik hou van je', 'Jag älskar dig',
-  'Te iubesc', 'Σ\'αγαπώ', 'أحبك', 'אני אוהב אותך', 'Rakastan sinua',
+  'Te iubesc', "Σ'αγαπώ", 'أحبك', 'אני אוהב אותך', 'Rakastan sinua',
   'Miluji tě', 'Szeretlek', 'Volim te', 'Якаю цябе', 'Amo te'
 ];
 
@@ -448,7 +417,6 @@ const LOVE_SLOTS = [
 function buildLoveWords() {
   const layer = document.getElementById('bgLove');
   const frag = document.createDocumentFragment();
-
   LOVE_SLOTS.forEach((slot, i) => {
     const el = document.createElement('div');
     el.className = 'love-word';
@@ -460,11 +428,9 @@ function buildLoveWords() {
     el.style.animationDelay = (i * 0.5) + 's';
     frag.appendChild(el);
   });
-
   layer.appendChild(frag);
 }
 
-/* Чипсы языков в интро */
 function buildLangChips() {
   const box = document.getElementById('langs');
   const shuffled = [...LOVE_LANGS].sort(() => Math.random() - 0.5).slice(0, 10);
@@ -480,67 +446,19 @@ buildPhotos();
 buildLoveWords();
 buildLangChips();
 
-/* =========================================================
-   2. ВОПРОСЫ
-   ========================================================= */
 const QUESTIONS = [
-  {
-    q: 'О чём я думаю перед сном? 🌙',
-    a: ['О завтрашнем дне', 'О тебе 💭', 'О еде 🍕', 'О работе'],
-    c: 1
-  },
-  {
-    q: 'Какое место на Земле самое красивое? 🌍',
-    a: ['Париж', 'Море', 'Рядом с тобой 💖', 'Горы'],
-    c: 2
-  },
-  {
-    q: 'Сколько раз в день я думаю о тебе? ⏰',
-    a: ['Пару раз', 'Ни разу', 'По праздникам', 'Бесконечно ♾️'],
-    c: 3
-  },
-  {
-    q: 'Что я хочу видеть каждое утро? ☀️',
-    a: ['Твою улыбку 😊', 'Будильник', 'Новости', 'Дождь за окном'],
-    c: 0
-  },
-  {
-    q: 'Что для меня самое ценное? 💎',
-    a: ['Телефон', 'Деньги', 'Ты 💝', 'Машина'],
-    c: 2
-  },
-  {
-    q: 'Чем пахнет счастье? 🌸',
-    a: ['Кофе', 'Твоими духами', 'Дождём', 'Мятой'],
-    c: 1
-  },
-  {
-    q: 'Что я пою про себя, когда тебя нет рядом? 🎶',
-    a: ['Гимн', 'Колыбельную', 'Песню о любви к тебе💕', 'Рэп'],
-    c: 2
-  },
-  {
-    q: 'Что я хочу сказать тебе прямо сейчас? ❤️',
-    a: ['Привет', 'Как дела?', 'Пока', 'Я тебя очень люблю💕'],
-    c: 3
-  }
+  { q: 'О чём я думаю перед сном? 🌙', a: ['О завтрашнем дне', 'О тебе 💭', 'О еде 🍕', 'О работе'], c: 1 },
+  { q: 'Какое место на Земле самое красивое? 🌍', a: ['Париж', 'Море', 'Рядом с тобой 💖', 'Горы'], c: 2 },
+  { q: 'Сколько раз в день я думаю о тебе? ⏰', a: ['Пару раз', 'Ни разу', 'По праздникам', 'Бесконечно ♾️'], c: 3 },
+  { q: 'Что я хочу видеть каждое утро? ☀️', a: ['Твою улыбку 😊', 'Будильник', 'Новости', 'Дождь за окном'], c: 0 },
+  { q: 'Что для меня самое ценное? 💎', a: ['Телефон', 'Деньги', 'Ты 💝', 'Машина'], c: 2 },
+  { q: 'Чем пахнет счастье? 🌸', a: ['Кофе', 'Твоими духами', 'Дождём', 'Мятой'], c: 1 },
+  { q: 'Что я пою про себя, когда тебя нет рядом? 🎶', a: ['Гимн', 'Колыбельную', 'Песню о любви к тебе', 'Рэп'], c: 2 },
+  { q: 'Что я хочу сказать тебе прямо сейчас? ❤️', a: ['Привет', 'Как дела?', 'Пока', 'Я тебя очень люблю'], c: 3 }
 ];
 
-const WRONG_PHRASES = [
-  'Не-а, подумай ещё 🥺',
-  'Мимо! Попробуй снова 💕',
-  'Почти! Но нет 🌸',
-  'Ты же знаешь правильный ответ 😘',
-  'Хи-хи, не угадала 🎀'
-];
-
-const CORRECT_PHRASES = [
-  'Да! Ты самая умная 💖',
-  'Правильно, солнышко ✨',
-  'Именно так! 💕',
-  'Умница моя 🌸',
-  'Точно-точно! 😍'
-];
+const WRONG_PHRASES = ['Не-а, подумай ещё 🥺','Мимо! Попробуй снова 💕','Почти! Но нет 🌸','Ты же знаешь правильный ответ 😘','Хи-хи, не угадала 🎀'];
+const CORRECT_PHRASES = ['Да! Ты самая умная 💖','Правильно, солнышко ✨','Именно так! 💕','Умница моя 🌸','Точно-точно! 😍'];
 
 let current = 0;
 let locked = false;
@@ -565,13 +483,11 @@ document.getElementById('startBtn').addEventListener('click', () => {
 function renderQuestion() {
   locked = false;
   const item = QUESTIONS[current];
-
   questionEl.textContent = item.q;
-  counterEl.textContent = `Вопрос ${current + 1} из ${QUESTIONS.length}`;
+  counterEl.textContent = 'Вопрос ' + (current + 1) + ' из ' + QUESTIONS.length;
   progressEl.style.width = ((current) / QUESTIONS.length * 100) + '%';
   feedbackEl.textContent = '';
   answersEl.innerHTML = '';
-
   item.a.forEach((text, idx) => {
     const btn = document.createElement('button');
     btn.className = 'answer';
@@ -583,21 +499,16 @@ function renderQuestion() {
 
 function handleAnswer(btn, chosen, correct) {
   if (locked) return;
-
   if (chosen === correct) {
     locked = true;
     btn.classList.add('correct');
     feedbackEl.textContent = CORRECT_PHRASES[Math.floor(Math.random() * CORRECT_PHRASES.length)];
     burstHearts(btn);
     progressEl.style.width = ((current + 1) / QUESTIONS.length * 100) + '%';
-
     setTimeout(() => {
       current++;
-      if (current < QUESTIONS.length) {
-        renderQuestion();
-      } else {
-        startFinale();
-      }
+      if (current < QUESTIONS.length) renderQuestion();
+      else startFinale();
     }, 850);
   } else {
     btn.classList.add('wrong');
@@ -606,7 +517,6 @@ function handleAnswer(btn, chosen, correct) {
   }
 }
 
-/* Взрыв сердечек */
 function burstHearts(originEl) {
   const rect = originEl.getBoundingClientRect();
   const hearts = ['💖','💕','💗','🌸','✨','💞'];
@@ -623,9 +533,6 @@ function burstHearts(originEl) {
   }
 }
 
-/* =========================================================
-   3. ФИНАЛ
-   ========================================================= */
 const LOVE_COLORS = ['#ff6fa5','#ff8fc0','#c47cff','#ff9a76','#ff5f8f','#b06bff','#ff7eb3','#e2528c'];
 
 const DEEP_TEXT = [
@@ -643,9 +550,9 @@ function startFinale() {
   finaleEl.classList.remove('hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  const loveBox  = document.getElementById('loveLines');
-  const missEl   = document.getElementById('missText');
-  const deepEl   = document.getElementById('deepText');
+  const loveBox = document.getElementById('loveLines');
+  const missEl  = document.getElementById('missText');
+  const deepEl  = document.getElementById('deepText');
 
   loveBox.innerHTML = '';
   missEl.classList.add('hidden');
@@ -658,20 +565,14 @@ function startFinale() {
   const timer = setInterval(() => {
     const line = document.createElement('div');
     line.className = 'love-line';
-    line.textContent = 'я тебя люблю💕';
-
+    line.textContent = 'я тебя люблю';
     const size = 1.05 + Math.random() * 0.55;
     line.style.fontSize = size.toFixed(2) + 'rem';
     line.style.color = LOVE_COLORS[i % LOVE_COLORS.length];
     line.style.transform = 'rotate(' + (Math.random() * 6 - 3).toFixed(1) + 'deg)';
-    line.style.animationDelay = '0s';
-
     loveBox.appendChild(line);
     i++;
-
-    /* плавный автоскролл */
     window.scrollTo(0, document.body.scrollHeight);
-
     if (i >= TOTAL) {
       clearInterval(timer);
       setTimeout(showMiss, 900);
@@ -683,23 +584,17 @@ function showMiss() {
   const missEl = document.getElementById('missText');
   missEl.classList.remove('hidden');
   missEl.style.animation = 'fadeUp 1.2s ease both';
-
-  setTimeout(() => {
-    window.scrollTo(0, document.body.scrollHeight);
-  }, 100);
-
+  setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 100);
   setTimeout(showDeepText, 2600);
 }
 
 function showDeepText() {
   const deepEl = document.getElementById('deepText');
-
   DEEP_TEXT.forEach((text, idx) => {
     const p = document.createElement('p');
     p.textContent = text;
     if (idx === DEEP_TEXT.length - 1) p.classList.add('signature');
     deepEl.appendChild(p);
-
     setTimeout(() => {
       p.classList.add('show');
       p.scrollIntoView({ behavior: 'smooth', block: 'center' });
